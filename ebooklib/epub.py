@@ -540,6 +540,10 @@ class EpubSMIL(EpubItem):
     def __str__(self):
         return '<EpubSMIL:%s:%s>' % (self.id, self.file_name)
 
+class EpubItemRef(object):
+    def __init__(self, item: EpubItem) -> None:
+        self.item = item
+        self.properties = []
 
 # EpubBook
 
@@ -1036,6 +1040,10 @@ class EpubWriter(object):
 
                 if not item.is_linear or not is_linear:
                     opts['linear'] = 'no'
+            elif isinstance(item, EpubItemRef):
+                opts = {'idref': item.item.get_id()}
+                if len(item.properties) != 0:
+                    opts['properties'] = ' '.join([str(i)for i in item.properties])
             else:
                 opts = {'idref': item}
 
