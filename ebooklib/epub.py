@@ -135,6 +135,7 @@ class EpubItem(object):
         self.content = content
         self.is_linear = True
         self.manifest = manifest
+        self.properties = []
 
         self.book = None
 
